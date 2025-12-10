@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun Diva!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 800px;
+        }
+
+        .birthday-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 50px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #764ba2;
+            margin-bottom: 10px;
+            animation: bounce 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .name {
+            font-size: 2.5em;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .message {
+            font-size: 1.3em;
+            color: #555;
+            line-height: 1.6;
+            margin: 30px 0;
+        }
+
+        .cake-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.5em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 20px 10px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .cake-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .music-btn {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .balloon {
+            position: fixed;
+            width: 50px;
+            height: 70px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-30px) translateX(10px); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .cake {
+            font-size: 100px;
+            margin: 20px 0;
+            animation: rotation 3s infinite linear;
+        }
+
+        @keyframes rotation {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .firework {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1s ease-out;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="birthday-card">
+            <h1>🎉 SELAMAT ULANG TAHUN 🎉</h1>
+            <div class="name">Diva Aulia Cantika</div>
+            <div class="message">
+                Semoga di hari istimewamu ini, semua impian dan harapanmu menjadi kenyataan! 
+                Semoga kamu selalu diberkahi kesehatan, kebahagiaan, dan kesuksesan dalam setiap langkahmu. 
+                Tetaplah menjadi pribadi yang ceria dan menginspirasi! ✨
+            </div>
+            <button class="cake-btn" onclick="showCake()">🎂 Tiup Lilin!</button>
+            <button class="music-btn" onclick="playMusic()">🎵 Putar Musik</button>
+            
+            <div id="cakeDisplay" class="hidden">
+                <div class="cake">🎂</div>
+                <p style="font-size: 1.5em; color: #ff6b6b; font-weight: bold;">Selamat! Semoga semua permintaanmu terkabul! 🌟</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Buat balon-balon
+        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#ff8e53', '#a29bfe'];
+        for (let i = 0; i < 15; i++) {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.left = Math.random() * 100 + '%';
+            balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            balloon.style.animationDelay = Math.random() * 3 + 's';
+            balloon.style.bottom = '-100px';
+            document.body.appendChild(balloon);
+        }
+
+        // Buat confetti
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.top = '-10px';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        // Jalankan confetti setiap 2 detik
+        setInterval(createConfetti, 2000);
+        createConfetti();
+
+        function showCake() {
+            const cakeDisplay = document.getElementById('cakeDisplay');
+            cakeDisplay.classList.remove('hidden');
+            createFireworks();
+            createConfetti();
+        }
+
+        function createFireworks() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = '50%';
+                    firework.style.top = '50%';
+                    firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    const angle = (Math.PI * 2 * i) / 30;
+                    const distance = 100 + Math.random() * 100;
+                    firework.style.setProperty('--x', Math.cos(angle) * distance + 'px');
+                    firework.style.setProperty('--y', Math.sin(angle) * distance + 'px');
+                    
+                    document.body.appendChild(firework);
+                    setTimeout(() => firework.remove(), 1000);
+                }, i * 50);
+            }
+        }
+
+        let audioContext;
+        let isPlaying = false;
+
+        function playMusic() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            if (isPlaying) {
+                return;
+            }
+            
+            isPlaying = true;
+            playHappyBirthday();
+            
+            setTimeout(() => {
+                isPlaying = false;
+            }, 8000);
+        }
+
+        function playHappyBirthday() {
+            const notes = [
+                {freq: 264, duration: 0.3}, {freq: 264, duration: 0.3}, {freq: 297, duration: 0.6},
+                {freq: 264, duration: 0.6}, {freq: 352, duration: 0.6}, {freq: 330, duration: 1.2},
+                {freq: 264, duration: 0.3}, {freq: 264, duration: 0.3}, {freq: 297, duration: 0.6},
+                {freq: 264, duration: 0.6}, {freq: 396, duration: 0.6}, {freq: 352, duration: 1.2}
+            ];
+            
+            let time = audioContext.currentTime;
+            notes.forEach(note => {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                
+                osc.frequency.value = note.freq;
+                osc.type = 'sine';
+                
+                gain.gain.setValueAtTime(0.3, time);
+                gain.gain.exponentialRampToValueAtTime(0.01, time + note.duration);
+                
+                osc.start(time);
+                osc.stop(time + note.duration);
+                
+                time += note.duration;
+            });
+        }
+    </script>
+</body>
+</html>
